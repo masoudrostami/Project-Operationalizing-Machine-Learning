@@ -12,7 +12,7 @@ These are steps we followed in this project. The diagram below shows the workflo
 
 
 ### 1. Authentication 
-Here, we need to create a Security Principal (SP) to interact with the Azure Workspace.For this experiment the lab-service which Udacity provided has been used. 
+Here, we need to create a Security Principal(SP) to interact with the Azure Workspace.For this experiment the lab-service which Udacity provided has been used. 
 
 ### 2. Automated ML Experiment
 The steps here are including
