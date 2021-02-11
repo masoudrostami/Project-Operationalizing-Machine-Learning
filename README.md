@@ -21,74 +21,112 @@ The steps here are including
 In this step, I created an AutoML experiment to run using the [Bank Marketing](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv) Dataset which was loaded in the Azure Workspace, choosing **'y'** that is customer subscribe or not as the dependent variable.
 
 *Figure 1: Bank Marketing Dataset*
-![](images/Dataset.JPG)
+![1 Dataset](https://user-images.githubusercontent.com/40363872/107599075-3ae11380-6bd4-11eb-925d-d3bf813731e3.JPG)
 
 
-I uploaded this dataset into Azure ML Studio in the *Registered Dataset* Section using the url provided in the project.
 
-For the compute cluster, I used the **Standard_DS12_v2** for the Virtual Machine and 1 as the **minimum number of nodes**.
+For the compute clustering, I used the **Standard_DS12_v2** for the Virtual Machine and 1 as the **minimum number of nodes** and 5 as the **maximum number of nodes**.I ran the experiment using classification, without enabling Deep Learning. The run took some time to test various models and found the best model for the task.
+![2 AutoML run1](https://user-images.githubusercontent.com/40363872/107599600-ef2f6980-6bd5-11eb-8f09-74cbeccff9c1.JPG)
 
-I ran the experiment using classification, without enabling Deep Learning. The run took some time to test various models and found the best model for the task.
 
-*Figure 2-3-4-5: Create an AutoML experiment*
-![Create an AutoML experiment](images/CreateAutoMLrun.png)
-After selecting the dataset which I'll work with, I chose an experiment name and the targey column for the training.
-
-![Create an AutoML experiment](images/CreateAutoMLrun6.png)
-Since it's a classification problem, I specified the task type without enabling deep learning.
-
-![Create an AutoML experiment](images/CreateAutoMLrun5.png)
-I checked *Explain best model* to have insights on the best model, and chose *Accuracy* as the primary metric the trained models will be compared by.
-
-![Create an AutoML experiment](images/CreateAutoMLrun4.png)
-I reduced the *Exit Criterion* to 1 hour and *Concurrency* to 5 concurrent iterations max.
-
-*Figure 6: AutoML run*
-![AutoML run](images/AutoMLrun2.png)
 The experiment is running, and many models are being trained on the **Bank Marketing** Dataset to find the best one.
+![3 AutoML running](https://user-images.githubusercontent.com/40363872/107599652-19812700-6bd6-11eb-8589-3e9e379856e8.JPG)
 
-*Figure 7: AutoML run Complete*
-![AutoML run](images/AutoMLrun3.png)
+
 After a while, the eperiment is complete and I can access the models that were trained and find the best model.
+![4 AutoML detail](https://user-images.githubusercontent.com/40363872/107599690-3158ab00-6bd6-11eb-985a-5b26e5f8bb3c.JPG)
 
-The best model for this classification problem was a **Voting Ensemble** model with **0.91958** Accuracy.
 
-*Figure 8: Best model*
-![Best model](images/Bestmodel.png)
-I access the best model to learn more about its metrics and other details.
+The best model for this classification problem was a **Voting Ensemble** model with **0.92** Accuracy.A Voting Ensemble is a machine learning model that trains on an ensemble of numerous models and predicts an output based on their highest probability of chosen class as input. <br>
+![6  AutoML Models](https://user-images.githubusercontent.com/40363872/107599715-459ca800-6bd6-11eb-9207-66a3a48b0bba.JPG)
 
-*Figure 9-10-11: Best model metrics*
-![Best model metrics](images/Bestmodelmetrics.png)
-In this section, I can see all of the model's metrics, such as *Accuracy*.
+I access the best model to learn more about its metrics and other details.In this section, I can see all of the model's metrics, such as *Accuracy*.
+![8  AutoML Run Metrics](https://user-images.githubusercontent.com/40363872/107599745-65cc6700-6bd6-11eb-86d4-5269845125d1.JPG)
 
-![Best model metrics](images/Bestmodelmetrics2.png)
-I can see some graphs such as *Recall* and *False Positive Rate*.
 
-![Best model metrics](images/Bestmodelmetrics3.png)
-There are many other details that I can access on the side by checking any value I'm interested in.
+Here I added the graphs such as *ROC* and *Confusion Matrix*.
+![9 AutoML Best model  confusion matrix](https://user-images.githubusercontent.com/40363872/107599798-9c09e680-6bd6-11eb-9c63-89f8d4fe7835.JPG)
 
-After the AutoML run completed, the best model summary showed the best run and the algorithm used. Here the best model is a Voting Ensemble model, which had an accuracy of **0.91897**.<br> A Voting Ensemble is a machine learning model that trains on an ensemble of numerous models and predicts an output based on their highest probability of chosen class as input. <br>
+
+![10 AutoML Best model  ROC](https://user-images.githubusercontent.com/40363872/107599809-a88e3f00-6bd6-11eb-988b-c0cb342885f0.JPG)
+
+
 
 ### 3. Deploy the Best Model
 In this experiment, the best model obtained used the Voting Ensemble algorithm. During deployment, **authentication is enabled**. Authentication is crucial for the continuous flow of operations, as Continuous Integration and Delivery systems rely on uninterrupted flows. The screenshot below shows thet *Key based authentication enabled* as *true*.<br>
+
 The model is deployed using **Azure Container Instance**. Azure Container Instance service uses key-based authentication and is disabled by default. Deploying the best model allows interaction with the HTTP API servie and data can be sent over POST requests. <br><br>
+
+![11  Deploy the best AutoML model](https://user-images.githubusercontent.com/40363872/107599967-26eae100-6bd7-11eb-9b86-597328fc1243.JPG)
+
+The model is successfully deployed, and we can access the model endpoint in the Endpoints section of Azure ML Studio.
+
+![12  Model Deployment success](https://user-images.githubusercontent.com/40363872/107600017-47b33680-6bd7-11eb-8b16-53ec9dacf948.JPG)
+
 
 ### 4. Enable Application Insights 
 Application Insights is a very useful tool to detect anomalies and visualise performance. It can be enabled before or after deployment and the following information can be collected from the endpoint: 
+
+
+![18  Application Insights dashboard](https://user-images.githubusercontent.com/40363872/107600187-d32cc780-6bd7-11eb-866f-d0a8a761b93f.JPG)
+
 
 **Enabling Application Insights using Python SDK**<br> 
 The logs.py script is used to enable application insights after deployment. 
 
 
+![Logging Enabled](https://user-images.githubusercontent.com/40363872/107600164-c3ad7e80-6bd7-11eb-9b24-cd3da4607951.JPG)
+
+
+
 ### 5. Swagger Documentation
-Swagger is a tool that helps build, document and consume RESTful web services. It explains what types of HTTP requests that an API can consume like POST and GET. <br><br> 
+Swagger is a tool that helps build, document and consume RESTful web services. It explains what types of HTTP requests that an API can consume like POST and GET. <br><br>
+Swagger documentation is loaded in the localhost using swagger.json from the deployed model.
+
+![19  Swagger parameters](https://user-images.githubusercontent.com/40363872/107600283-1f780780-6bd8-11eb-8539-8886cfef75f8.png)
+
+![20  Swagger 2](https://user-images.githubusercontent.com/40363872/107600290-269f1580-6bd8-11eb-99fc-84407f242516.JPG)
+
 
 ### 6. Consume Model Enpoints
-The script endpoint.py is used to interact with the deployed model after setting the scoring_uri and the primary key. endpoint.py runs against the API and produces JSON output from the model. The endpoint.py in the repository sends two data instances and when run it returns the following output. 
+The script endpoint.py is used to interact with the deployed model after setting the scoring_uri and the primary key. endpoint.py runs against the API and produces JSON output from the model. The endpoint.py in the repository sends two data instances and when run it returns the following output.The point here is to interact with the model and feed some test data to it. We do this by providing the scoring_uri and the key to the endpoint.py script and running it.
+
+
+![Python Endpoint](https://user-images.githubusercontent.com/40363872/107600428-9ca37c80-6bd8-11eb-93c0-15949c95b5dc.JPG)
+
 
 ### 7. Create and Publish a Pipeline
 **Creating and Running a Pipeline**<br>
 The Jupyter Notebook provided is run after configuring necessary details. <br>
 Pipelines are a great way to automate workflows. Published pipelines allow external services to interact with them so that they can do work more efficiently.
-
 A new pipeline is created with an AutoML step. The pipeline experiment is run and details are displayed using RunDetails widget. The pipeline run overview shows the run status and details. 
+
+* Create a compute cluster for python SDK*
+
+![Python SDk2](https://user-images.githubusercontent.com/40363872/107601040-6109b200-6bda-11eb-9206-cf18bce6a73f.JPG)
+
+*Pipeline in Azure Studio*
+
+![Pipeline Endpoints](https://user-images.githubusercontent.com/40363872/107601142-a9c16b00-6bda-11eb-8e82-a4ce6fc61816.JPG)
+
+
+*Pipeline Overview in Azure Studio*
+
+![Pipeline run completed](https://user-images.githubusercontent.com/40363872/107601164-bd6cd180-6bda-11eb-9ba4-b0246824dc94.JPG)
+
+
+
+
+## Screen Recording
+
+
+## Suggestion
+I think our accuracy for the model is best, but it was better to enable Deep Learning, definitly it takes more time to run but it can improve our result. Deep learning is the future and work best with different datasets. Also, another think that I can suggest is to solve the dataset with  imbalance issue. Also, I feel it is better before using this dataset, we can use some dimention reduction techniques such Random forest and PCA, then use the new datsets for the AutoMl.
+
+
+
+
+
+
+
+
