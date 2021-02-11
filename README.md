@@ -8,7 +8,8 @@ This project is part of the Udacity Azure ML Engineer Nanodegree.Here, we have a
 ## Architectural Diagram
 These are steps we followed in this project. The diagram below shows the workflow of this project. First, we need to create a Security Principal (SP), then an AutoML experiment is run and the best model have been chosen and deployed, later the deployed model is consumed through the REST endpoint. Finally, we automated he workflow by making a pipeline and publishing it. 
 
-![diagram](images/diagram.png)
+![diagram](https://user-images.githubusercontent.com/40363872/107598953-f35a8780-6bd3-11eb-9c3b-1f25bbdf1a95.png)
+
 
 
 ### 1. Authentication 
