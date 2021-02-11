@@ -19,7 +19,7 @@ The steps here are including
 In this step, I created an AutoML experiment to run using the [Bank Marketing](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv) Dataset which was loaded in the Azure Workspace, choosing **'y'** that is customer subscribe or not as the dependent variable.
 
 *Figure 1: Bank Marketing Dataset*
-![Bank Marketing Dataset](images/1.Dataset.JPG)
+![](images/1.Dataset.JPG)
 I uploaded this dataset into Azure ML Studio in the *Registered Dataset* Section using the url provided in the project.
 
 For the compute cluster, I used the **Standard_DS12_v2** for the Virtual Machine and 1 as the **minimum number of nodes**.
