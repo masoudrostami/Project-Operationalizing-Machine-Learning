@@ -119,6 +119,7 @@ A new pipeline is created with an AutoML step. The pipeline experiment is run an
 
 ## Screen Recording
 
+[Youtube Link](https://youtu.be/bvivpnhP_js)
 
 ## Suggestion
 I think our accuracy for the model is best, but it was better to enable Deep Learning, definitly it takes more time to run but it can improve our result. Deep learning is the future and work best with different datasets. Also, another think that I can suggest is to solve the dataset with  imbalance issue. Also, I feel it is better before using this dataset, we can use some dimention reduction techniques such Random forest and PCA, then use the new datsets for the AutoMl.
