@@ -1,33 +1,68 @@
 
 # Project 2 - Operationalizing Machine Learning
 
-
-*The key steps in this projects are including:
-
-**Key Steps**
-<ol>
-<li>Authentication</li>
-<li>Automated ML Experiment</li>
-<li>Deploy the best model</li>
-<li>Enable logging</li>
-<li>Swagger Documentation</li>
-<li>Consume model endpoints</li>
-<li>Create and publish a pipeline</li>
-</ol>
+## Purpose
+This project is part of the Udacity Azure ML Engineer Nanodegree.Here, we have a plan to use Azure ML to to predict if a client will subscribe in the banking based on several independent variables that we have. [Bankmarketing Datset](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv).We trained our model using AutoML approach and best algorithm selected and deployed as an webservice to Azure Container Instance. At the end, we automated the procedures by creating and deploying a pipeline.
 
 
-## Key Steps
+## Architectural Diagram
+These are steps we followed in this project. The diagram below shows the workflow of this project. First, we need to create a Security Principal (SP), then an AutoML experiment is run and the best model have been chosen and deployed, later the deployed model is consumed through the REST endpoint. Finally, we automated he workflow by making a pipeline and publishing it. 
+
+![diagram](images/diagram.png)
+
+
 ### 1. Authentication 
-For this experiment the lab which Udacity provided has been used. This step is skipped since this account is not authorized to create a security principal.
+Here, we need to create a Security Principal (SP) to interact with the Azure Workspace.For this experiment the lab-service which Udacity provided has been used. 
 
 ### 2. Automated ML Experiment
 The steps here are including
+In this step, I created an AutoML experiment to run using the [Bank Marketing](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv) Dataset which was loaded in the Azure Workspace, choosing **'y'** that is customer subscribe or not as the dependent variable.
 
-**Dataset Description**<br>
-**Uploading and Registering Dataset**<br>
-**Compute Cluster Description**<br>
-**AutoML Configuration and Run**<br>
-**Choosing the Best Model**<br>
+*Figure 1: Bank Marketing Dataset*
+![Bank Marketing Dataset](images/1.Dataset.JPG)
+I uploaded this dataset into Azure ML Studio in the *Registered Dataset* Section using the url provided in the project.
+
+For the compute cluster, I used the **Standard_DS12_v2** for the Virtual Machine and 1 as the **minimum number of nodes**.
+
+I ran the experiment using classification, without enabling Deep Learning. The run took some time to test various models and found the best model for the task.
+
+*Figure 2-3-4-5: Create an AutoML experiment*
+![Create an AutoML experiment](images/CreateAutoMLrun.png)
+After selecting the dataset which I'll work with, I chose an experiment name and the targey column for the training.
+
+![Create an AutoML experiment](images/CreateAutoMLrun6.png)
+Since it's a classification problem, I specified the task type without enabling deep learning.
+
+![Create an AutoML experiment](images/CreateAutoMLrun5.png)
+I checked *Explain best model* to have insights on the best model, and chose *Accuracy* as the primary metric the trained models will be compared by.
+
+![Create an AutoML experiment](images/CreateAutoMLrun4.png)
+I reduced the *Exit Criterion* to 1 hour and *Concurrency* to 5 concurrent iterations max.
+
+*Figure 6: AutoML run*
+![AutoML run](images/AutoMLrun2.png)
+The experiment is running, and many models are being trained on the **Bank Marketing** Dataset to find the best one.
+
+*Figure 7: AutoML run Complete*
+![AutoML run](images/AutoMLrun3.png)
+After a while, the eperiment is complete and I can access the models that were trained and find the best model.
+
+The best model for this classification problem was a **Voting Ensemble** model with **0.91958** Accuracy.
+
+*Figure 8: Best model*
+![Best model](images/Bestmodel.png)
+I access the best model to learn more about its metrics and other details.
+
+*Figure 9-10-11: Best model metrics*
+![Best model metrics](images/Bestmodelmetrics.png)
+In this section, I can see all of the model's metrics, such as *Accuracy*.
+
+![Best model metrics](images/Bestmodelmetrics2.png)
+I can see some graphs such as *Recall* and *False Positive Rate*.
+
+![Best model metrics](images/Bestmodelmetrics3.png)
+There are many other details that I can access on the side by checking any value I'm interested in.
+
 After the AutoML run completed, the best model summary showed the best run and the algorithm used. Here the best model is a Voting Ensemble model, which had an accuracy of **0.91897**.<br> A Voting Ensemble is a machine learning model that trains on an ensemble of numerous models and predicts an output based on their highest probability of chosen class as input. <br>
 
 ### 3. Deploy the Best Model
