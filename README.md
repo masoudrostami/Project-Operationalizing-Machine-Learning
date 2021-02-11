@@ -122,12 +122,21 @@ For this step, I used the aml-pipelines-with-automated-machine-learning-step Jup
 ![Python SDk2](https://user-images.githubusercontent.com/40363872/107601040-6109b200-6bda-11eb-9206-cf18bce6a73f.JPG)
 
 
+
+
 *Pipeline in Azure Studio*
 ![Pipeline Endpoints](https://user-images.githubusercontent.com/40363872/107601142-a9c16b00-6bda-11eb-8e82-a4ce6fc61816.JPG)
 
 *The pipeline created in the Pipelines section of Azure ML Studio.*
 ![Pipeline created](https://user-images.githubusercontent.com/40363872/107664955-ce9cf900-6c41-11eb-8e9f-4516ddb4ee87.JPG)
 
+*Here, I create the experiments*
+![Python SKD 1](https://user-images.githubusercontent.com/40363872/107675925-6d7b2280-6c4d-11eb-87d8-13e6b902573f.JPG)
+
+
+*After the pipeline experiment, Run details are displayed using RunDetails widget. The pipeline run overview shows the run status and details.*
+
+![RunDetails](https://user-images.githubusercontent.com/40363872/107676158-ad420a00-6c4d-11eb-86f2-6bda1794c733.png)
 
 
 *Pipeline Overview in Azure Studio. Here, I show the Pipeline Overview in the Azure ML Studio. Also, here, the REST endpoint in Azure ML Studio, with a status of ACTIVE is in this part.
