@@ -72,11 +72,14 @@ Application Insights is a very useful tool to detect anomalies and visualise per
 
 
 **Enabling Application Insights using Python SDK**<br> 
-The logs.py script is used to enable application insights after deployment. 
+Aplication Insights is a very useful tool to detect anomalies and visualise performance. It can be enabled before or after deployment and the following information can be collected from the endpoint. Enabling Application Insights and Logs could have been done at the time of deployment, but for this project we achieved it using Azure Python SDK.
+
+Firstly, i edited the logs.py file and set application insight to true and then executed the python script. After running the logs.py the Application insight got enabled in the Azure ML Studio. 
+
+![Details for Endpoint - Copy](https://user-images.githubusercontent.com/40363872/107660545-40267880-6c3d-11eb-9b2e-aa2c0eb719c3.JPG)
 
 
 ![Logging Enabled](https://user-images.githubusercontent.com/40363872/107600164-c3ad7e80-6bd7-11eb-9b24-cd3da4607951.JPG)
-
 
 
 ### 5. Swagger Documentation
