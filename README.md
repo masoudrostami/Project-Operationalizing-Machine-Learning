@@ -65,59 +65,74 @@ The model is successfully deployed, and we can access the model endpoint in the 
 
 
 ### 4. Enable Application Insights 
-Application Insights is a very useful tool to detect anomalies and visualise performance. It can be enabled before or after deployment and the following information can be collected from the endpoint: 
+Application Insights is a very useful tool to detect anomalies and visualise performance. It can be enabled before or after deployment and the following information can be collected from the endpoint.Enabling Application Insights and Logs could have been done at the time of deployment, but for this project we achieved it using Azure Python SDK.
+We choose the best model for deployment and enable "Authentication" while deploying the model using Azure Container Instance (ACI). The executed code in logs.py enables Application Insights. "Application Insights enabled" is disabled before executing logs.py.
 
 
-![18  Application Insights dashboard](https://user-images.githubusercontent.com/40363872/107600187-d32cc780-6bd7-11eb-866f-d0a8a761b93f.JPG)
+Running the logs.py script requires interactive authentication, after successfully logging in, we can see the logs in the screenshots above.
+![Logging Enabled](https://user-images.githubusercontent.com/40363872/107600164-c3ad7e80-6bd7-11eb-9b24-cd3da4607951.JPG)
 
 
-**Enabling Application Insights using Python SDK**<br> 
-Aplication Insights is a very useful tool to detect anomalies and visualise performance. It can be enabled before or after deployment and the following information can be collected from the endpoint. Enabling Application Insights and Logs could have been done at the time of deployment, but for this project we achieved it using Azure Python SDK.
-
-Firstly, i edited the logs.py file and set application insight to true and then executed the python script. After running the logs.py the Application insight got enabled in the Azure ML Studio. 
-
+Firstly, I edited the logs.py file and set application insight to true and then executed the python script. After running the logs.py the Application insight got enabled in the Azure ML Studio. Since the application insights have been enabled, it's shown as *true* in the properties section
 ![Details for Endpoint - Copy](https://user-images.githubusercontent.com/40363872/107660545-40267880-6c3d-11eb-9b2e-aa2c0eb719c3.JPG)
 
 
-![Logging Enabled](https://user-images.githubusercontent.com/40363872/107600164-c3ad7e80-6bd7-11eb-9b24-cd3da4607951.JPG)
+Here, we use this tool to detect anomalies performance such as respond time.
+![18  Application Insights dashboard](https://user-images.githubusercontent.com/40363872/107600187-d32cc780-6bd7-11eb-866f-d0a8a761b93f.JPG)
+
 
 
 ### 5. Swagger Documentation
 Swagger is a tool that helps build, document and consume RESTful web services. It explains what types of HTTP requests that an API can consume like POST and GET. <br><br>
-Swagger documentation is loaded in the localhost using swagger.json from the deployed model.
+To consume our best AutoML model using Swagger, we first need to download the **swagger.json** file provided to us in the Endpoints section of Azure Machine Learning Studio.
+Then we run the **swagger.sh** and **serve.py** files to be able to interact with the swagger instance running with the documentation for the HTTP API of the model.
+
+
+
+Swagger documentation is loaded in the localhost using swagger.json from the deployed model.t This is the input for the /score POST method that returns our deployed model's preditions.
 
 ![19  Swagger parameters](https://user-images.githubusercontent.com/40363872/107600283-1f780780-6bd8-11eb-8539-8886cfef75f8.png)
 
+Here, The HTTP POST request is a method used to submit data. The parameters and responses of the HTTP POST
 ![20  Swagger 2](https://user-images.githubusercontent.com/40363872/107600290-269f1580-6bd8-11eb-99fc-84407f242516.JPG)
 
 
 ### 6. Consume Model Enpoints
-The script endpoint.py is used to interact with the deployed model after setting the scoring_uri and the primary key. endpoint.py runs against the API and produces JSON output from the model. The endpoint.py in the repository sends two data instances and when run it returns the following output.The point here is to interact with the model and feed some test data to it. We do this by providing the scoring_uri and the key to the endpoint.py script and running it.
+Finally, it's time to interact with the model and feed some test data to it. We do this by providing the scoring_uri and the key to the endpoint.py script and running it. 
 
+The script endpoint.py is used to interact with the deployed model after setting the scoring_uri and the primary key. endpoint.py runs against the API and produces JSON output from the model. The endpoint.py in the repository sends two data instances and when run it returns the following output.
 
 ![Python Endpoint](https://user-images.githubusercontent.com/40363872/107600428-9ca37c80-6bd8-11eb-93c0-15949c95b5dc.JPG)
 
 
+After executing the endpoint.py script the model sends follwing response, i benchmarked the endpoint with Apache benchmark.
+![Benchmark](https://user-images.githubusercontent.com/40363872/107663192-f12e1280-6c3f-11eb-9794-c71665a432e4.JPG)
+
+
 ### 7. Create and Publish a Pipeline
-**Creating and Running a Pipeline**<br>
+
 The Jupyter Notebook provided is run after configuring necessary details. <br>
 Pipelines are a great way to automate workflows. Published pipelines allow external services to interact with them so that they can do work more efficiently.
-A new pipeline is created with an AutoML step. The pipeline experiment is run and details are displayed using RunDetails widget. The pipeline run overview shows the run status and details. 
+For this step, I used the aml-pipelines-with-automated-machine-learning-step Jupyter Notebook to create a Pipeline. I created, consumed and published the best model for the bank marketing dataset using AutoML with Python SDK.
+
+
+*After updating the notebook to have the same keys, URI, dataset, cluster, and model names already created, I run through the cells to create a pipeline.*
 
 * Create a compute cluster for python SDK*
-
 ![Python SDk2](https://user-images.githubusercontent.com/40363872/107601040-6109b200-6bda-11eb-9206-cf18bce6a73f.JPG)
 
-*Pipeline in Azure Studio*
 
+*Pipeline in Azure Studio*
 ![Pipeline Endpoints](https://user-images.githubusercontent.com/40363872/107601142-a9c16b00-6bda-11eb-8e82-a4ce6fc61816.JPG)
 
+*The pipeline created in the Pipelines section of Azure ML Studio.*
+![Pipeline created](https://user-images.githubusercontent.com/40363872/107664955-ce9cf900-6c41-11eb-8e9f-4516ddb4ee87.JPG)
 
-*Pipeline Overview in Azure Studio*
+
+
+*Pipeline Overview in Azure Studio. Here, I show the Pipeline Overview in the Azure ML Studio. Also, here, the REST endpoint in Azure ML Studio, with a status of ACTIVE is in this part.
 
 ![Pipeline run completed](https://user-images.githubusercontent.com/40363872/107601164-bd6cd180-6bda-11eb-9ba4-b0246824dc94.JPG)
-
-
 
 
 ## Screen Recording
@@ -126,6 +141,9 @@ A new pipeline is created with an AutoML step. The pipeline experiment is run an
 
 ## Suggestion
 I think our accuracy for the model is best, but it was better to enable Deep Learning, definitly it takes more time to run but it can improve our result. Deep learning is the future and work best with different datasets. Also, another think that I can suggest is to solve the dataset with  imbalance issue. Also, I feel it is better before using this dataset, we can use some dimention reduction techniques such Random forest and PCA, then use the new datsets for the AutoMl.
+
+*Error showing Imbalance data*
+![Implance data](https://user-images.githubusercontent.com/40363872/107665589-71ee0e00-6c42-11eb-94f7-50b5fa45b705.JPG)
 
 
 
